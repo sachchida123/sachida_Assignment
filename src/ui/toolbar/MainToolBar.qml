@@ -51,45 +51,46 @@ Rectangle {
         visible:        qgcPal.globalTheme === QGCPalette.Light
     }
 
-    Rectangle {
-        anchors.fill:   viewButtonRow
-        visible:        currentToolbar === flyViewToolbar
-
-        gradient: Gradient {
-            orientation: Gradient.Horizontal
-            GradientStop { position: 0;                                     color: _mainStatusBGColor }
-            GradientStop { position: currentButton.x + currentButton.width; color: _mainStatusBGColor }
-            GradientStop { position: 1;                                     color: _root.color }
-        }
-    }
-
     RowLayout {
-        id:                     viewButtonRow
-        anchors.bottomMargin:   1
-        anchors.top:            parent.top
-        anchors.bottom:         parent.bottom
-        spacing:                ScreenTools.defaultFontPixelWidth / 2
+        id: viewButtonRow
+        anchors.bottomMargin: 1
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        spacing: ScreenTools.defaultFontPixelWidth / 2
 
         QGCToolBarButton {
-            id:                     currentButton
+            id: currentButton
             Layout.preferredHeight: viewButtonRow.height
-            icon.source:            "/res/QGCLogoFull"
-            logo:                   true
-            onClicked:              mainWindow.showToolSelectDialog()
+            icon.source: "/res/QGCLogoFull"
+            logo: true
+            onClicked: mainWindow.showToolSelectDialog()
         }
 
         MainStatusIndicator {
             Layout.preferredHeight: viewButtonRow.height
-            visible:                currentToolbar === flyViewToolbar
+            visible: currentToolbar === flyViewToolbar
+        }
+
+        Rectangle {
+            Layout.fillWidth: true
         }
 
         QGCButton {
-            id:                 disconnectButton
-            text:               qsTr("Disconnect")
-            onClicked:          _activeVehicle.closeVehicle()
-            visible:            _activeVehicle && _communicationLost && currentToolbar === flyViewToolbar
+            id: disconnectButton
+            text: qsTr("Disconnect")
+            onClicked: _activeVehicle.closeVehicle()
+            visible: _activeVehicle && _communicationLost && currentToolbar === flyViewToolbar
+        }
+
+        QGCButton {
+            id: logoutButton
+            text: qsTr("Log Out")
+            onClicked: _activeVehicle.closeVehicle()
+            visible: true
+            Layout.alignment:   Qt.AlignVCenter | Qt.AlignRight
         }
     }
+
 
     QGCFlickable {
         id:                     toolsFlickable
